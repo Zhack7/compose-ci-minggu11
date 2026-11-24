@@ -29,12 +29,15 @@ Workflow bernama Compose Check dipicu oleh dua event, yaitu push ke branch main 
 3. Badge status di README
    ![Badge](bukti/3-badge.png)
 
-Tautan Pull Request (sudah hijau dan di-merge): https://github.com/Zhack7/compose-ci-minggu11/pull/2 
+Tautan Pull Request (sudah hijau dan di-merge): https://github.com/Zhack7/compose-ci-minggu11/pull/1
 
 ## Kendala dan cara mengatasinya
-<!-- GANTI bagian ini dengan kendala yang benar-benar kamu alami -->
-Saya mengalami kesulitan dibagian upload gambar karna susah menemukan keberadaan bukti foto tersebut didalam folder komputer saya sehingga membingungkan saya dalam melakukan perintah upload di ubuntu
+1. **Push ditolak (Authentication failed).** Muncul pesan `Invalid username or token. Password authentication is not supported for Git operations.` karena Git lewat HTTPS tidak menerima password akun. Saya membuat Personal Access Token di GitHub dan memakainya sebagai password.
+2. **Peringatan variable is not set.** Saat menjalankan `docker compose config -q` di hasil clone muncul `The "DB_NAME" variable is not set. Defaulting to a blank string.` Penyebabnya file .env tidak ikut repositori karena diabaikan .gitignore. Saya membuatnya dari contoh dengan `cp .env.example .env`.
+3. **Gambar bukti tidak ditemukan saat disalin.** Perintah cp menampilkan `cannot stat 'User/Pictures/1-run-hijau.png'` karena saya memakai folder pengguna Windows yang salah (Default User) dan namanya mengandung spasi. Saya mencari nama yang benar dengan `ls /mnt/c/Users/`, lalu menyalin dari `/mnt/c/Users/rozaq/Downloads/`.
+4. **Commit gagal karena lupa git add.** Muncul `nothing added to commit but untracked files present`. Saya menjalankan `git add bukti README.md` sebelum commit.
+5. **Pull Request ter-merge saat check masih merah.** Tombol Merge tetap aktif walaupun check gagal. Saya mengulang percobaan dari repositori baru dan baru menekan Merge setelah check berubah hijau.
 
 ## Refleksi singkat
-<!-- SESUAIKAN dengan kata-katamu sendiri -->
 Dengan CI, setiap perubahan pada file Compose langsung diperiksa oleh GitHub tanpa saya harus mengujinya secara manual. Saat saya sengaja merusak indentasi, kesalahan itu sudah ketahuan di Pull Request sebelum masuk ke branch main, sehingga branch utama tetap sehat. Pola ini bisa saya pakai di tugas atau proyek lain agar kesalahan konfigurasi tertangkap lebih awal.
+
